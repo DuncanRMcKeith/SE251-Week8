@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PONG - Start</title>
+    <link rel="stylesheet" href="css/jump.css">
+</head>
+<body>
+    <main>
+        <section id="start-screen">
+            <h1>PONG</h1>
+            <p>Enter your name and click start to play.</p>
+
+            <input type="text" id="playerName" placeholder="Your Name">
+
+            <button onclick="startGame()">Start Game</button>
+
+            <button onclick="window.location.href='hs.html'">
+                View High Scores
+            </button>
+        </section>
+    </main>
+    
+    <script>
+        function startGame() {
+            const nameInput = document.getElementById("playerName");
+            const name = nameInput.value.trim();
+
+            if (name === "") {
+                alert("Please enter a name.");
+                nameInput.focus();
+                return;
+            }
+
+            // save the name for the end screen
+            localStorage.setItem("currentPlayer", name);
+
+            // go to the game page
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>

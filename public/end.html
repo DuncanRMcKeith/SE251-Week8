@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PONG - Game Over</title>
+    <link rel="stylesheet" href="css/jump.css">
+</head>
+<body>
+    <main>
+        <section id="end-screen">
+            <h1>Game Over</h1>
+            <p id="finalScore">Your Score: 0</p>
+            <label for="playerName">Enter your name:</label>
+            <input type="text" id="playerName">
+            <div>
+                <button id="saveBtn">Save Score</button>
+                <button onclick="window.location.href='start.html'">Back to Start</button>
+            </div>
+            <h2>Top 5 Scores</h2>
+            <ol id="scoreList"></ol>
+        </section>
+    </main>
+
+    <script>
+    // get score from page URL
+    const params = new URLSearchParams(window.location.search);
+    const scoreParam = params.get("score");
+    let score = Number(scoreParam);
+    // if score is missing or invalid, default to 0
+    if (isNaN(score)) {
+        score = 0;
+    }
+    // show score on screen
+    document.getElementById("finalScore").textContent = "Your Score: " + score;
+    // load old highscores (no pipes)
+    let highScores = JSON.parse(localStorage.getItem("highscores"));
+
+    if (!highScores) {
+        highScores = [];
+    }
+    showScores(highScores);
+    // save score button
+    document.getElementById("saveBtn").addEventListener("click", function () {
+        const name = document.getElementById("playerName").value.trim();
+
+        if (name === "") {
+            alert("Please enter a name.");
+            return;
+        }
+        // add new score
+        highScores.push({ name: name, score: score });
+        // sort best to worst
+        highScores.sort(function(a, b) {
+            return b.score - a.score;
+        });
+
+        // keep top 5
+        highScores = highScores.slice(0, 5);
+        // save list
+        localStorage.setItem("highscores", JSON.stringify(highScores));
+        // update display
+        showScores(highScores);
+    });
+
+    // show list on page
+    function showScores(scores) {
+        const list = document.getElementById("scoreList");
+        list.innerHTML = "";
+        scores.forEach(function(s) {
+            const item = document.createElement("li");
+            item.textContent = s.name + " - " + s.score;
+            list.appendChild(item);
+        });
+    }
+    </script>
+</body>
+</html>
