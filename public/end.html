@@ -28,10 +28,6 @@
     const params = new URLSearchParams(window.location.search);
     const scoreParam = params.get("score");
     let score = Number(scoreParam);
-    // if score is missing or invalid, default to 0
-    if (isNaN(score)) {
-        score = 0;
-    }
     // show score on screen
     document.getElementById("finalScore").textContent = "Your Score: " + score;
     // load old highscores (no pipes)
