@@ -55,7 +55,6 @@
         highScores.sort(function(a, b) {
             return b.score - a.score;
         });
-
         // keep top 5
         highScores = highScores.slice(0, 5);
         // save list
@@ -63,7 +62,6 @@
         // update display
         showScores(highScores);
     });
-
     // show list on page
     function showScores(scores) {
         const list = document.getElementById("scoreList");
