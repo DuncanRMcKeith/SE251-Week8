@@ -39,7 +39,7 @@ function init()
 
 states[`death`] = function()
 {
-    window.location = `hs.html`
+    window.location.href = `end.html?score=${player.score}`
    
 }
 states[`pause`] = function(){
@@ -89,6 +89,7 @@ states[`game`] = function()
             ground.x = 10000;
             player.score += 2;
             console.log(player.score)
+            document.querySelector("#score p").innerText = `score: ${player.score}`
         }
     })
 

@@ -4,29 +4,39 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PONG</title>
-    <link rel="stylesheet" href="css/jump.css">
+    <title>JUMP - High Scores</title>
+    <link rel="stylesheet" href="css/leaderboard.css">
 </head>
 <body>
     <main>
-        <section id="game">
-            <div id="score">
-                <div>
-                    <p id="score" class="score">score: 0</p>
-                    <!--<p class="anim">0</p>-->
-                </div>
-                <div>
-                    <p id="high-score" class="score">highscore: 0</p>
-                    <!--<p class="anim">0</p>-->
-                </div>
-            </div>
-            <canvas id="jump" width="800" height="800"></canvas>
-        </section>
+        <h2>Top 5 Global High Scores</h2>
+        <hr>
+        <br>
+        <div id="leaderboard">
+            <ul id="scoreList"></ul>
+        </div>
     </main>
    
     <script src="js/Box.js"></script>
     <script src="js/keyboard.js"></script>
     <script src="js/jump.js"></script>
+    <script>
+        fetch("/scores")
+            .then(res => res.json())
+            .then(scores => {
+                scores.sort((a,b) => b.score - a.score)
+
+                let ul = document.getElementById("scoreList")
+                
+                scores.forEach((i, index) => {
+                    let li = document.createElement("li")
+                    li.textContent = `${index + 1}. ${i.name} - ${i.score}`
+                    ul.appendChild(li)
+                })
+            })
+
+
+    </script>
  
     
         

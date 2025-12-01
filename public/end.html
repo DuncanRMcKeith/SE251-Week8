@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PONG - Game Over</title>
+    <title>JUMP - Game Over</title>
     <link rel="stylesheet" href="css/jump.css">
 </head>
 <body>
@@ -16,7 +16,9 @@
             <input type="text" id="playerName">
             <div>
                 <button id="saveBtn">Save Score</button>
-                <button onclick="window.location.href='start.html'">Back to Start</button>
+                <button id="upload">Upload to Server Leaderboard</button>
+                <button onclick="window.location.href='start.html'">Back to Start</button> 
+                <!-- <button onclick="window.location.href='index.html'">Back to Start</button>-->
             </div>
             <h2>Top 5 Scores</h2>
             <ol id="scoreList"></ol>
@@ -74,6 +76,23 @@
             list.appendChild(item);
         });
     }
+
+
+    //upload score to JSON leaderboard
+    document.getElementById('upload').addEventListener('click', e=> {
+        const name = document.getElementById("playerName").value.trim();
+        if(name === "") {
+            alert("Please enter a name")
+        }
+        else{
+            fetch("/addscore", {
+            method: 'POST',
+            headers: {"Content-Type" : "application/json"},
+            body: JSON.stringify({playerscore: score, playername : name})
+        })
+        }
+        
+    })
     </script>
 </body>
 </html>

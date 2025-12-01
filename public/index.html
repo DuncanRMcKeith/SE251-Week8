@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PONG</title>
+    <title>JUMP</title>
     <link rel="stylesheet" href="css/jump.css">
 </head>
 <body>
@@ -16,7 +16,7 @@
                     <!--<p class="anim">0</p>-->
                 </div>
                 <div>
-                    <p class="score">highscore: 0</p>
+                    <p id="highscore" class="score">highscore: 0</p>
                     <!--<p class="anim">0</p>-->
                 </div>
             </div>
@@ -27,6 +27,18 @@
     <script src="js/Box.js"></script>
     <script src="js/keyboard.js"></script>
     <script src="js/jump.js"></script>
+    <script>
+        //show highest score in localstorage
+        var highscore = JSON.parse(localStorage.getItem("highscores") || "[]")
+        //sort high score list, save highest to a var
+        highscore.sort((a,b)=> b.score - a.score)
+        var highest = highscore[0]
+
+        //put highest.score into the high score spot on the game
+        var Scoretag = document.getElementById("highscore")
+        Scoretag.innerText = `highscore: ${highest.score}`
+
+    </script>
    
     
         

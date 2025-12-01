@@ -29,21 +29,39 @@ const readFile = (path)=>{
 }
 
 app.get(`/`, (req, res)=>{
-  const filePath = path.join(__dirname, `public`, `index.html`)
+  const filePath = path.join(__dirname, `public`, `start.html`)
   res.sendFile(filePath);
 })
 
-app.get('/jeep', async (req, res) => {
-  var data = await readFile(`./data/jeep.json`);
-  res.send(JSON.parse(data));
+app.get('/scores', async (req, res) => {
+  var data = await readFile(`./data/scores.json`);
+  res.json(JSON.parse(data));
   });
 
-app.post('/jeep', async (req, res) => { 
-    var oldData =  await readFile(`./data/jeep.json`)
+app.post('/addscore', async (req, res) => { 
+    var oldData =  await readFile(`./data/scores.json`)
     var newData =  await JSON.parse(oldData)
-    newData.push(req.body)
+    
+    var newname = req.body.playername
+    var newscore = Number(req.body.playerscore)
+
+    if (isNaN(newscore)) {
+      return res.status(400).send("Invalid Score") //shouldn't pop up, but here just in case something goes wrong
+    }
+
+    newData.push({
+      name: newname,
+      score: newscore
+    })
+
+    //sort scoreboard highest to lowest
+    newData.sort((a,b) => b.score - a.score)
+
+    //keep top 5 scores in the list
+    newData = newData.slice(0,5)
+
     const jsonString = JSON.stringify(newData);
-    await fs.writeFile('./data/jeep.json', jsonString, err => {
+    await fs.writeFile('./data/scores.json', jsonString, err => {
       if (err) {
           console.log('Error writing file', err)
       } else {
@@ -54,7 +72,7 @@ app.post('/jeep', async (req, res) => {
 });
 
 //Start up the server on port 3000.
-var port = process.env.PORT || 80
+var port = process.env.PORT || 3000
 app.listen(port, ()=>{
-    console.log("Server Running at Localhost:80")
+    console.log("Server Running at Localhost:3000")
 })
