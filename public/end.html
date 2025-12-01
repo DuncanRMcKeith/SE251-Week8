@@ -34,9 +34,16 @@
     if (isNaN(score)) {
         score = 0;
     }
+    //load local storage name into name input
+    let playername = localStorage.getItem("currentPlayer")
+    let inputName = document.getElementById("playerName")
+    inputName.value = playername
+
+
+
     // show score on screen
     document.getElementById("finalScore").textContent = "Your Score: " + score;
-    // load old highscores (no pipes)
+    // load old highscores 
     let highScores = JSON.parse(localStorage.getItem("highscores"));
 
     if (!highScores) {
