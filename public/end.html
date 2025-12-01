@@ -30,7 +30,7 @@
     let score = Number(scoreParam);
     // show score on screen
     document.getElementById("finalScore").textContent = "Your Score: " + score;
-    // load old highscores (no pipes)
+    // load old highscores 
     let highScores = JSON.parse(localStorage.getItem("highscores"));
 
     if (!highScores) {
